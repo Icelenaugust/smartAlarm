@@ -6,7 +6,7 @@ import * as Google from "expo-google-app-auth";
 const config = {
   behavior: "web",
   iosClientId:
-    "105312709801-ijokdguoh26tmrh2q3lc8gs427fofcjo.apps.googleusercontent.com",
+    "269033281750-360ccmpd1k2il63jp9np28oe9fetri8n.apps.googleusercontent.com",
   scopes: ["profile", "email"],
 };
 export default class Login extends Component {
@@ -17,7 +17,7 @@ export default class Login extends Component {
         if (
           providerData[i].providerId ===
             firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
-          providerData[i].uid === googleUser.getBasicProfile().getId()
+            providerData[i].uid === googleUser.getBasicProfile().getId()
         ) {
           // We don't need to reauth the Firebase connection.
           return true;

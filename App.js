@@ -2,14 +2,18 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet, Text, View } from 'react-native';
-import Home from './Home'
-import Alarm from './Alarm'
-import Login from './Login'
+import { StyleSheet} from 'react-native';
+
+import * as firebase from 'firebase';
+import {firebaseConfig} from './config/firebaseConfig';
+firebase.initializeApp(firebaseConfig);
+
+import Home from './screens/Home'
+import Alarm from './screens/Alarm'
+import Login from './screens/Login'
 
 
 const Stack = createStackNavigator();
-
 
 export default function App() {
   return (

@@ -10,8 +10,8 @@ npm install @react-navigation/native @react-navigation/stack
 expo install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
 
 # for firebase set up
-##1.
+## 1.
 npm install --save @react-native-firebase/app
-##2.
+## 2.
 npm install @react-native-firebase/auth
 

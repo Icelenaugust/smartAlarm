@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, Text, View } from 'react-native';
 import Home from './Home'
 import Alarm from './Alarm'
+import Login from './Login'
 
 
 const Stack = createStackNavigator();
@@ -20,6 +21,7 @@ export default function App() {
           options={{ title: 'Welcome' }}
         />
         <Stack.Screen name="Alarm" component={ Alarm } />
+        <Stack.Screen name="Login" component={ Login } />
       </Stack.Navigator>
     </NavigationContainer>
   );

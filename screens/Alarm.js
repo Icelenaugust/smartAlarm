@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
+import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import * as Notifications from 'expo-notifications';
 
@@ -21,24 +22,6 @@ export default class Alarm extends Component {
           chosenTime: ''
         }
     }
-
-    askPermissions = async () => {
-        const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-        let finalStatus = existingStatus;
-        if (existingStatus !== 'granted') {
-            const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-            finalStatus = status;
-        }
-        if (finalStatus !== 'granted') {
-            alert('Failed to get push token for push notification!');
-            return;
-        }
-    }
-
-    async componentDidMount() {
-        await this.askPermissions();
-    }
-
 
     handlePicker = (datetime) => {
         this.setState({
@@ -70,15 +53,6 @@ export default class Alarm extends Component {
                 sound: 'email-sound.wav'
             },
             trigger,
-        }).then(async () => {
-            await Notifications.scheduleNotificationAsync({
-                content: {
-                    title: "You've got mail!",
-                    body: 'Here is the notification body',
-                    sound: 'email-sound.wav'
-                },
-                trigger: {seconds: 5, repeats: true}
-            })
         });
     }
 

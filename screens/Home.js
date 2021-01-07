@@ -15,7 +15,7 @@ export default class Home extends Component {
       <View style={styles.container}>
         <ImageBackground
           style={styles.backgrd}
-          source={require('./images/homebkgrd.png')}
+          source={require('../images/homebkgrd.png')}
         >
           <TouchableOpacity
             style={styles.button}

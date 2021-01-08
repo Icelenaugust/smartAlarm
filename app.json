@@ -18,6 +18,18 @@
     ],
     "ios": {
       "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "This app allows users to select photos as profile picture.",
+        "NSCameraUsageDescription": "This app allows users to take photos as profile picture."
+      },
+      "bundleIdentifier": "example.expo.googlesignin",
+      "config": {
+        "googleSignIn": {
+  
+          "reservedClientId": "269033281750-360ccmpd1k2il63jp9np28oe9fetri8n.apps.googleusercontent.com"
+        }
+      }
+      
     },
     "android": {
       "adaptiveIcon": {

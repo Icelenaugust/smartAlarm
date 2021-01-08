@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
+import Profile from "./Profile";
 
 const config = {
   behavior: "web",
@@ -11,6 +12,18 @@ const config = {
 };
 
 export default class Login extends Component {
+  constructor() {
+    super()
+    this.state = {
+      shouldRedirect: false
+    }
+  }
+
+  async componentDidMount() {
+    this.signInWithGoogleAsync().then(() =>
+      this.setState({ shouldRedirect: true }));
+  }
+
   isUserEqual = (googleUser, firebaseUser) => {
     if (firebaseUser) {
       var providerData = firebaseUser.providerData;
@@ -82,6 +95,7 @@ export default class Login extends Component {
               // ...
             });
         } else {
+          this.setState()
           console.log("User already signed-in Firebase.");
         }
       })
@@ -103,23 +117,22 @@ export default class Login extends Component {
     }
   };
   render() {
+    if (this.state.shouldRedirect) {
+      return (<Profile />);
+    } else {
     return (
       <View style={styles.container}>
         <Button
           title="Sign In With Google"
           onPress={() => {
             this.signInWithGoogleAsync().then(() =>
-              this.props.navigation.navigate("Profile")
+              this.setState({ shouldRedirect: true })
             );
           }}
         />
-
-        <Button
-          title="Goto Profile Page"
-          onPress={() => this.props.navigation.navigate("Profile")}
-        />
       </View>
     );
+    }
   }
 }
 

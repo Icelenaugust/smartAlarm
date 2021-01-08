@@ -6,13 +6,13 @@ import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import * as Notifications from 'expo-notifications';
 
-// Notifications.setNotificationHandler({
-//     handleNotification: async () => ({
-//       shouldShowAlert: true,
-//       shouldPlaySound: true,
-//       shouldSetBadge: false,
-//     }),
-// });
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+    }),
+});
 
 export default class Alarm extends Component {
     constructor() {
@@ -44,17 +44,17 @@ export default class Alarm extends Component {
 
     }
 
-    // schedulePushNotification = async () => {
-    //     const trigger = new Date(this.state.chosenTime);
-    //     await Notifications.scheduleNotificationAsync({
-    //         content: {
-    //             title: "You've got mail!",
-    //             body: 'Here is the notification body',
-    //             sound: 'email-sound.wav'
-    //         },
-    //         trigger,
-    //     });
-    // }
+    schedulePushNotification = async () => {
+        const trigger = new Date(this.state.chosenTime);
+        await Notifications.scheduleNotificationAsync({
+            content: {
+                title: "You've got mail!",
+                body: 'Here is the notification body',
+                sound: 'email-sound.wav'
+            },
+            trigger,
+        });
+    }
 
     render() {
         return(
@@ -65,9 +65,9 @@ export default class Alarm extends Component {
                 <TouchableOpacity style = {styles.button} onPress={this.showPicker}>
                     <Text style={styles.text}>Choose a Time</Text>
                 </TouchableOpacity>
-                {/* <TouchableOpacity style = {styles.button} onPress={this.schedulePushNotification}>
+                <TouchableOpacity style = {styles.button} onPress={this.schedulePushNotification}>
                     <Text style={styles.text}>Set Alarm</Text>
-                </TouchableOpacity> */}
+                </TouchableOpacity>
                 <DateTimePickerModal
                     isVisible={this.state.isVisible}
                     onConfirm={this.handlePicker}

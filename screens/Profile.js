@@ -179,6 +179,8 @@ export default class Login extends Component {
     var user = this.state.user;
 
 
+    
+
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.icon}>
@@ -186,7 +188,7 @@ export default class Login extends Component {
           {myIcon}
           </TouchableOpacity>
         </View>
-        <View style={{ alignSelf: "center", marginTop: "6%" }}>
+        <View style={{ alignSelf: "center", marginTop: "20%" }}>
           <View style={styles.profileImage}>
             <Image
               source={
@@ -227,7 +229,6 @@ export default class Login extends Component {
             >
               <Text style={[styles.text, { fontSize: 24 }]}>Friends</Text>
             </TouchableOpacity>
-
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.props.navigation.navigate("FriendRequest")}
@@ -248,12 +249,7 @@ export default class Login extends Component {
             onPress={() => this.updateProfilePic()}
           /> */}
         </View>
-        <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.props.navigation.navigate("FriendRequest")}
-            >
-              <Text >Add Friends</Text>
-            </TouchableOpacity>
+        
       </SafeAreaView>
     );
   }

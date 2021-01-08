@@ -62,6 +62,12 @@ export default class Login extends Component {
                   .then((snapshot) => {
                     // console.log("Snapshot", snapshot);
                   });
+                firebase.database().ref("/users/" + result.user.uid + "/friends/")
+                                  .set({
+                                    [result.user.uid] : result.additionalUserInfo.profile.given_name
+                                  }).then((snapshot) => {
+                                    // console.log("Snapshot", snapshot);
+                                  });
               } else {
                 firebase
                   .database()

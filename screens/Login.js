@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Button } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 
-
 const config = {
   behavior: "web",
   iosClientId:
@@ -19,7 +18,7 @@ export default class Login extends Component {
         if (
           providerData[i].providerId ===
             firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
-            providerData[i].uid === googleUser.uid
+          providerData[i].uid === googleUser.uid
         ) {
           // We don't need to reauth the Firebase connection.
           return true;
@@ -28,6 +27,7 @@ export default class Login extends Component {
     }
     return false;
   };
+
   onSignIn = (googleUser) => {
     console.log("Google Auth Response", googleUser);
     // We need to register an Observer on Firebase Auth to make sure auth is initialized.
@@ -60,7 +60,7 @@ export default class Login extends Component {
                     created_at: Date.now(),
                   })
                   .then((snapshot) => {
-                    // console.log('Snapshot', snapshot);
+                    // console.log("Snapshot", snapshot);
                   });
               } else {
                 firebase
@@ -107,14 +107,17 @@ export default class Login extends Component {
       <View style={styles.container}>
         <Button
           title="Sign In With Google"
-          onPress={() => this.signInWithGoogleAsync()}
+          onPress={() => {
+            this.signInWithGoogleAsync().then(() =>
+              this.props.navigation.navigate("Profile")
+            );
+          }}
         />
 
         <Button
           title="Goto Profile Page"
-          onPress={() => this.props.navigation.navigate('Profile')}
+          onPress={() => this.props.navigation.navigate("Profile")}
         />
-
       </View>
     );
   }

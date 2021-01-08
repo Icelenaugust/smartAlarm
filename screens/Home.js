@@ -23,14 +23,17 @@ export default class Home extends Component {
             style={styles.button}
             onPress={() => this.props.navigation.navigate("Alarm")}
           >
-            <Text style={styles.text}> Set Alarm</Text>
+
+            <Text style={styles.text}>Set Alarm</Text>
+
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.button}
             onPress={() => this.props.navigation.navigate("Login")}
           >
-            <Text style={styles.text}> Log In</Text>
+            <Text style={styles.text}>Log In</Text>
+
           </TouchableOpacity>
         </ImageBackground>
       </View>

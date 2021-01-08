@@ -19,6 +19,7 @@ var uid;
 var hasUpdated = false;
 
 export default class Login extends Component {
+
   registerForPushNotificationsAsync = async () => {
     if (Constants.isDevice) {
       const { status: existingStatus } = await Permissions.getAsync(
@@ -28,34 +29,39 @@ export default class Login extends Component {
       if (existingStatus !== "granted") {
         const { status } = await Permissions.askAsync(
           Permissions.NOTIFICATIONS
-        );
-        finalStatus = status;
+          );
+          finalStatus = status;
+        }
+        if (finalStatus !== "granted") {
+          alert("Failed to get push token for push notification!");
+          return;
+        }
+        // Get the token that uniquely identifies this device
+        let token = await Notifications.getExpoPushTokenAsync();
+        console.log(token.data);
+        // POST the token to your backend server from where you can retrieve it to send push notifications.
+        firebase
+          .database()
+          .ref("users/" + this.currentUser.uid + "/push_token")
+          .set(token);
+      } else {
+        alert("Must use physical device for Push Notifications");
       }
-      if (finalStatus !== "granted") {
-        alert("Failed to get push token for push notification!");
-        return;
+  
+      if (Platform.OS === "android") {
+        Notifications.setNotificationChannelAsync("default", {
+          name: "default",
+          importance: Notifications.AndroidImportance.MAX,
+          vibrationPattern: [0, 250, 250, 250],
+          lightColor: "#FF231F7C",
+        });
       }
-      // Get the token that uniquely identifies this device
-      let token = await Notifications.getExpoPushTokenAsync();
-      console.log(token.data);
-      // POST the token to your backend server from where you can retrieve it to send push notifications.
-      firebase
-        .database()
-        .ref("users/" + this.currentUser.uid + "/push_token")
-        .set(token);
-    } else {
-      alert("Must use physical device for Push Notifications");
-    }
+    };
+    async componentDidMount() {
+        this.currentUser = await firebase.auth().currentUser;
+        await this.registerForPushNotificationsAsync();
+      }
 
-    if (Platform.OS === "android") {
-      Notifications.setNotificationChannelAsync("default", {
-        name: "default",
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: "#FF231F7C",
-      });
-    }
-  };
 
   // writeUserData(userId, imageUrl) {
   //     firebase.database().ref('users/' + userId).set({
@@ -158,10 +164,10 @@ export default class Login extends Component {
           </View>
         </View>
         <View style={{ alignSelf: "center", margin: 10 }}>
-          <Button
+          {/* <Button
             title="Change Profile Picture"
             onPress={() => this.updateProfilePic()}
-          />
+          /> */}
         </View>
       </SafeAreaView>
     );

@@ -242,8 +242,18 @@ export default class Login extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        
-
+        <View style={{ alignSelf: "center", margin: 10 }}>
+          {/* <Button
+            title="Change Profile Picture"
+            onPress={() => this.updateProfilePic()}
+          /> */}
+        </View>
+        <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate("FriendRequest")}
+            >
+              <Text >Add Friends</Text>
+            </TouchableOpacity>
       </SafeAreaView>
     );
   }
@@ -275,7 +285,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 20,
   },
   subText: {
     fontSize: 16,

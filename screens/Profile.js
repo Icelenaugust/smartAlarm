@@ -194,6 +194,12 @@ export default class Login extends Component {
             onPress={() => this.updateProfilePic(user)}
           />
         </View>
+        <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate("FriendRequest")}
+            >
+              <Text >Add Friends</Text>
+            </TouchableOpacity>
       </SafeAreaView>
     );
   }
@@ -213,7 +219,15 @@ const styles = StyleSheet.create({
     height: undefined,
     width: undefined,
   },
-
+  button: {
+    width: 250,
+    height: 50,
+    backgroundColor: '#e5e2f6',
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
   subText: {
     fontSize: 16,
     color: "#AEB5BC",

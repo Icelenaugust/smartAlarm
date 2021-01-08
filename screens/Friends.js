@@ -42,10 +42,9 @@ export default class Friends extends Component {
                     );
    
             });
-
+            console.log(this.state.nameList)
             this.setState({isLoaded: true})
         }
-        
         
         
         return(

@@ -93,11 +93,7 @@ export default class Login extends Component {
   });
 }
 
-  render() {
-    var user = firebase.auth().currentUser;
-    var storage = firebase.storage();
-    var displayName;
-    var photoURL;
+
 
   writeUserData(userId, imageUrl) {
     firebase
@@ -182,7 +178,7 @@ export default class Login extends Component {
   render() {
     var user = this.state.user;
 
-    
+
 
     return (
       <SafeAreaView style={styles.container}>
@@ -214,14 +210,25 @@ export default class Login extends Component {
         <View style={styles.statsContainer}>
           <View style={styles.statsBox}>
             {/* <Text style={[styles.text, { fontSize: 24 }]}>30</Text> */}
-
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate("QuestionForm")}
+            >
+              <Text style={styles.text}>Question Form</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate("QuestionBank")}
+            >
+              <Text style={styles.text}>Question Bank</Text>
+            </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.props.navigation.navigate("Friends")}
             >
               <Text style={[styles.text, { fontSize: 24 }]}>Friends</Text>
             </TouchableOpacity>
-            
+
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.props.navigation.navigate("FriendRequest")}
@@ -236,7 +243,7 @@ export default class Login extends Component {
             onPress={() => this.updateProfilePic(user)}
           />
         </View>
-        
+
       </SafeAreaView>
     );
   }

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { StyleSheet, 
-         Text, 
-         View,  
-         Image, 
-         ScrollView, 
+import { StyleSheet,
+         Text,
+         View,
+         Image,
+         ScrollView,
          Button,
          SafeAreaView,
          Alert,
@@ -13,40 +13,61 @@ import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 import { color } from "react-native-reanimated";
 
-
+const getPushToken = (name, ls1, ls2) => {
+    for (let i = 0; i < ls1.length; i++) {
+        if (ls1[i] === name) return ls2[i];
+    }
+    return "invalid";
+}
 
 export default class Friends extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {nameList:[], isLoaded: false};
+        this.state = {nameList:[], tokens: [], isLoaded: false};
     }
-    
+
+    sendPushNotification = (name) => {
+        let response = fetch('https://exp.host/--/api/v2/push/send', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            to: getPushToken(name, this.state.nameList, this.state.tokens),
+            sound: 'default',
+            title: 'Question Request',
+            body: 'Hi please input your question here'
+        })
+        });
+
+    }
+
     render() {
         var user = firebase.auth().currentUser;
-        
+
         var usersRef = firebase.database().ref('users/' + user.uid + '/friends');
-        
+
         if (!this.state.isLoaded) {
             usersRef.once('value', (snapshot) => {
                 var curr = [];
-    
+
                     snapshot.forEach((childSnapshot) => {
-    
+
                         var name = childSnapshot.val();
                         //var curr = this.state.nameList;
                         curr.push(name);
                         this.setState({nameList: curr});
                     }
-                    
+
                     );
-   
+
             });
             console.log(this.state.nameList)
             this.setState({isLoaded: true})
         }
-        
-        
+
         return(
             <View style={styles.container}>
                 <ScrollView>
@@ -56,7 +77,7 @@ export default class Friends extends Component {
                                 <Text style={styles.item}>{item}</Text>
                                 <TouchableOpacity
                                     style={styles.button}
-                                    onPress={() => this.props.navigation.navigate('Alarm')}
+                                    onPress={() => this.sendPushNotification(item)}
                                 >
                                     <Text style={styles.text}>Request
                                     </Text>
@@ -65,7 +86,7 @@ export default class Friends extends Component {
                         )
                     })}
                 </ScrollView>
-                
+
             </View>
         );
     }
@@ -79,7 +100,7 @@ const styles = StyleSheet.create({
       marginTop: '2%',
       padding: 10,
       backgroundColor: "white"
- 
+
     },
 
     itembox: {
@@ -88,7 +109,7 @@ const styles = StyleSheet.create({
         margin: 10,
         borderRadius: 20
         //justifyContent: "center",
-        
+
     },
 
     item: {
@@ -109,6 +130,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center'
-        
+
     },
   });

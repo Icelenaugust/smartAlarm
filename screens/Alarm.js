@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
-import Constants from 'expo-constants';
-import * as Permissions from 'expo-permissions';
+import { WebView } from "react-native-webview";
 import * as Notifications from 'expo-notifications';
 
 Notifications.setNotificationHandler({
@@ -14,13 +13,27 @@ Notifications.setNotificationHandler({
     }),
 });
 
+const isValidDate = (d) => {
+    let dt = new Date();
+    dt.setHours(dt.getHours(),dt.getMinutes()+1,0,0);
+    return d > dt;
+}
+
 export default class Alarm extends Component {
     constructor() {
         super()
         this.state = {
           isVisible: false,
-          chosenTime: ''
+          chosenTime: '',
+          isAnswerQuestion: false,
         }
+    }
+
+    componentDidMount() {
+        const subscription = Notifications.addNotificationResponseReceivedListener(response => {
+            this.setState({ isAnswerQuestion: true });
+        });
+        return () => subscription.remove();
     }
 
     handlePicker = (datetime) => {
@@ -46,36 +59,61 @@ export default class Alarm extends Component {
 
     schedulePushNotification = async () => {
         const trigger = new Date(this.state.chosenTime);
-        await Notifications.scheduleNotificationAsync({
-            content: {
-                title: "You've got mail!",
-                body: 'Here is the notification body',
-                sound: 'email-sound.wav'
-            },
-            trigger,
-        });
+        if (!isValidDate(trigger)) {
+            alert('Sorry! Alarm date must be at least 1 minute from now');
+            return;
+        }
+        for (let i = 0; i < 30; i++) {
+            trigger.setSeconds(trigger.getSeconds() + 2);
+            await Notifications.scheduleNotificationAsync({
+                content: {
+                    title: "You've got mail!",
+                    body: 'Here is the notification body',
+                    sound: 'email-sound.wav'
+                },
+                trigger,
+            });
+        }
     }
 
     render() {
-        return(
-            <View style={styles.container}>
-                <Text style={{color: 'red', fontSize: 20}}>
-                    {this.state.chosenTime}
-                </Text>
-                <TouchableOpacity style = {styles.button} onPress={this.showPicker}>
-                    <Text style={styles.text}>Choose a Time</Text>
+        if (this.state.isAnswerQuestion) {
+            return(<View style={styles.container}>
+                <TouchableOpacity style = {styles.button} onPress={async () => {this.setState({ isAnswerQuestion: false }); await Notifications.cancelAllScheduledNotificationsAsync()}}>
+                    <Text style={styles.text}>Solve Question</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style = {styles.button} onPress={this.schedulePushNotification}>
-                    <Text style={styles.text}>Set Alarm</Text>
-                </TouchableOpacity>
-                <DateTimePickerModal
-                    isVisible={this.state.isVisible}
-                    onConfirm={this.handlePicker}
-                    onCancel={this.hidePicker}
-                    mode={'datetime'}
-                />
-            </View>
-        );
+            </View>);
+        } else {
+            return(
+                <View style={styles.container}>
+                    <Text style={{color: 'red', fontSize: 20}}>
+                        {this.state.chosenTime}
+                    </Text>
+                    <TouchableOpacity style = {styles.button} onPress={this.showPicker}>
+                        <Text style={styles.text}>Choose a Time</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style = {styles.button} onPress={this.schedulePushNotification}>
+                        <Text style={styles.text}>Set Alarm</Text>
+                    </TouchableOpacity>
+                    <WebView
+                        ref={(ref) => (this.webview = ref)}
+                        originWhitelist={["*"]}
+                        mediaPlaybackRequiresUserAction={false} // Allow autoplay
+                        useWebKit={true}
+                        source={{
+                            html:
+                            '<audio id="audio" loop> <source src="https://go.transportili.app/static/sounds/ring.mp3" type="audio/mp3" /> </audio>',
+                        }}
+                    />
+                    <DateTimePickerModal
+                        isVisible={this.state.isVisible}
+                        onConfirm={this.handlePicker}
+                        onCancel={this.hidePicker}
+                        mode={'datetime'}
+                    />
+                </View>
+            );
+        }
     }
 }
 

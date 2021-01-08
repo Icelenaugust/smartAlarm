@@ -10,10 +10,7 @@ import {
   ImageBackground,
   Dimensions,
 } from "react-native";
-
 import Icon from "react-native-vector-icons/FontAwesome";
-
-
 import firebase from "firebase";
 
 const myIcon = <Icon name="search" size={30} color="gray" />;

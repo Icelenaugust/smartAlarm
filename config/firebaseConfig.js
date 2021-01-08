@@ -1,3 +1,4 @@
+import firebase from "firebase";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 // export const firebaseConfig = {
 //     apiKey: "AIzaSyD5ICQzWvZ7s1KG0u-UWdO0iXrIpw_P_gs",
@@ -19,3 +20,8 @@ export const firebaseConfig = {
     appId: "1:269033281750:web:f032395e41f92a18579177",
     databaseURL: "https://smartalarm-f9fb3-default-rtdb.firebaseio.com/"
   };
+
+  
+
+
+

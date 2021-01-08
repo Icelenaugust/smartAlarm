@@ -3,12 +3,14 @@ import { View, Text, StyleSheet, Button } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 
+
 const config = {
   behavior: "web",
   iosClientId:
     "269033281750-360ccmpd1k2il63jp9np28oe9fetri8n.apps.googleusercontent.com",
   scopes: ["profile", "email"],
 };
+
 export default class Login extends Component {
   isUserEqual = (googleUser, firebaseUser) => {
     if (firebaseUser) {
@@ -17,7 +19,7 @@ export default class Login extends Component {
         if (
           providerData[i].providerId ===
             firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
-            providerData[i].uid === googleUser.getBasicProfile().getId()
+            providerData[i].uid === googleUser.uid
         ) {
           // We don't need to reauth the Firebase connection.
           return true;
@@ -107,6 +109,12 @@ export default class Login extends Component {
           title="Sign In With Google"
           onPress={() => this.signInWithGoogleAsync()}
         />
+
+        <Button
+          title="Goto Profile Page"
+          onPress={() => this.props.navigation.navigate('Profile')}
+        />
+
       </View>
     );
   }

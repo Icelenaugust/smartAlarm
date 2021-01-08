@@ -27,23 +27,6 @@ export default class Friends extends Component {
         this.state = {nameList:[], tokens: [], isLoaded: false};
     }
 
-    sendPushNotification = (name) => {
-        let response = fetch('https://exp.host/--/api/v2/push/send', {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            to: getPushToken(name, this.state.nameList, this.state.tokens),
-            sound: 'default',
-            title: 'Question Request',
-            body: 'Hi please input your question here'
-        })
-        });
-
-    }
-
     render() {
         var user = firebase.auth().currentUser;
 

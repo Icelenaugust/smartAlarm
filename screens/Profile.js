@@ -214,7 +214,18 @@ export default class Login extends Component {
         <View style={styles.statsContainer}>
           <View style={styles.statsBox}>
             {/* <Text style={[styles.text, { fontSize: 24 }]}>30</Text> */}
-
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate("QuestionForm")}
+            >
+              <Text style={styles.text}>Question Form</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate("QuestionBank")}
+            >
+              <Text style={styles.text}>Question Bank</Text>
+            </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.props.navigation.navigate("Friends")}

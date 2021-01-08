@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
-import Constants from 'expo-constants';
-import * as Permissions from 'expo-permissions';
+import { WebView } from "react-native-webview";
 import * as Notifications from 'expo-notifications';
 
 Notifications.setNotificationHandler({
@@ -46,14 +45,17 @@ export default class Alarm extends Component {
 
     schedulePushNotification = async () => {
         const trigger = new Date(this.state.chosenTime);
-        await Notifications.scheduleNotificationAsync({
-            content: {
-                title: "You've got mail!",
-                body: 'Here is the notification body',
-                sound: 'email-sound.wav'
-            },
-            trigger,
-        });
+        for (let i = 0; i < 10; i++) {
+            trigger.setSeconds(trigger.getSeconds() + 2);
+            await Notifications.scheduleNotificationAsync({
+                content: {
+                    title: "You've got mail!",
+                    body: 'Here is the notification body',
+                    sound: 'email-sound.wav'
+                },
+                trigger,
+            });
+        }
     }
 
     render() {
@@ -68,6 +70,16 @@ export default class Alarm extends Component {
                 <TouchableOpacity style = {styles.button} onPress={this.schedulePushNotification}>
                     <Text style={styles.text}>Set Alarm</Text>
                 </TouchableOpacity>
+                <WebView
+                    ref={(ref) => (this.webview = ref)}
+                    originWhitelist={["*"]}
+                    mediaPlaybackRequiresUserAction={false} // Allow autoplay
+                    useWebKit={true}
+                    source={{
+                        html:
+                        '<audio id="audio" loop> <source src="https://go.transportili.app/static/sounds/ring.mp3" type="audio/mp3" /> </audio>',
+                    }}
+                />
                 <DateTimePickerModal
                     isVisible={this.state.isVisible}
                     onConfirm={this.handlePicker}

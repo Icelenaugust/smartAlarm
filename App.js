@@ -12,6 +12,9 @@ import Alarm from "./screens/Alarm";
 import Login from "./screens/Login";
 import Profile from "./screens/Profile";
 import Friends from "./screens/Friends";
+import FriendRequest from "./screens/FriendRequest";
+import AcceptRequest from "./screens/AcceptRequest";
+
 
 const Stack = createStackNavigator();
 
@@ -28,6 +31,8 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Friends" component={Friends} />
+        <Stack.Screen name="FriendRequest" component={FriendRequest} />
+        <Stack.Screen name="AcceptRequest" component={AcceptRequest} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -15,9 +15,12 @@ import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import { v4 as uuidv4 } from "uuid";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 var updatedURI;
 var hasUpdated = false;
+const myIcon = <Icon name="users" size={30} color="gray" />;
+
 
 export default class Login extends Component {
   constructor(props) {
@@ -69,6 +72,32 @@ export default class Login extends Component {
     this.retrievePic(this.currentUser);
     await this.registerForPushNotificationsAsync();
   }
+
+  // handleFriendReq  = () => {
+
+  // }
+
+  countFriends(user) {
+    var someRef = (firebase
+      .database()
+      .ref("/users/" + user.uid + '/friends/'));
+
+      someRef.once("value").then((snapshot) => {
+          var data = snapshot.val();
+
+          if (data == null) {
+              return 0;
+          } else {
+              return data.length;
+          }
+  });
+}
+
+  render() {
+    var user = firebase.auth().currentUser;
+    var storage = firebase.storage();
+    var displayName;
+    var photoURL;
 
   writeUserData(userId, imageUrl) {
     firebase
@@ -153,8 +182,15 @@ export default class Login extends Component {
   render() {
     var user = this.state.user;
 
+    
+
     return (
       <SafeAreaView style={styles.container}>
+        <View style={styles.icon}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("AcceptRequest")}>
+          {myIcon}
+          </TouchableOpacity>
+        </View>
         <View style={{ alignSelf: "center", marginTop: "20%" }}>
           <View style={styles.profileImage}>
             <Image
@@ -183,9 +219,15 @@ export default class Login extends Component {
               style={styles.button}
               onPress={() => this.props.navigation.navigate("Friends")}
             >
-              <Text style={[styles.text, { fontSize: 24 }]}>30</Text>
+              <Text style={[styles.text, { fontSize: 24 }]}>Friends</Text>
             </TouchableOpacity>
-            <Text style={[styles.text, styles.subText]}>Friends</Text>
+            
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate("FriendRequest")}
+            >
+              <Text style={[styles.text, { fontSize: 24 }]}>Add Friends</Text>
+            </TouchableOpacity>
           </View>
         </View>
         <View style={{ alignSelf: "center", margin: 10 }}>
@@ -194,6 +236,7 @@ export default class Login extends Component {
             onPress={() => this.updateProfilePic(user)}
           />
         </View>
+        
       </SafeAreaView>
     );
   }
@@ -204,6 +247,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFF",
   },
+  icon: {
+    justifyContent: 'flex-end',
+    marginLeft: '85%',
+    marginTop: '3%',
+  },
   text: {
     fontFamily: "HelveticaNeue",
     color: "#52575D",
@@ -213,7 +261,15 @@ const styles = StyleSheet.create({
     height: undefined,
     width: undefined,
   },
-
+  button: {
+    width: 250,
+    height: 50,
+    backgroundColor: '#e5e2f6',
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
   subText: {
     fontSize: 16,
     color: "#AEB5BC",

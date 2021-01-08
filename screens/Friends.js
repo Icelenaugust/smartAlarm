@@ -23,17 +23,17 @@ export default class Friends extends Component {
     }
     
     render() {
+        var user = firebase.auth().currentUser;
         
-        var usersRef = firebase.database().ref('users/');
+        var usersRef = firebase.database().ref('users/' + user.uid + '/friends');
         
         if (!this.state.isLoaded) {
             usersRef.once('value', (snapshot) => {
                 var curr = [];
     
-                
                     snapshot.forEach((childSnapshot) => {
     
-                        var name = childSnapshot.val().first_name;
+                        var name = childSnapshot.val();
                         //var curr = this.state.nameList;
                         curr.push(name);
                         this.setState({nameList: curr});
@@ -42,10 +42,9 @@ export default class Friends extends Component {
                     );
    
             });
-
+            console.log(this.state.nameList)
             this.setState({isLoaded: true})
         }
-        
         
         
         return(
@@ -95,8 +94,8 @@ const styles = StyleSheet.create({
     item: {
         paddingVertical: 20,
         marginLeft: 20,
-        marginRight: '40%',
-        fontSize: 30,
+        marginRight: '17%',
+        fontSize: 18,
         fontFamily: 'Baskerville',
         color: 'black',
     },

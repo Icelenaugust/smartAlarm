@@ -22,7 +22,7 @@ Users will have 5 attempts at answering the quiz question to turn alarm off or a
 
       
 ## Tech Stack:
-Frontend - React Native
-Backend - Firebase
-Styling - CSS
+1. Frontend - React Native
+1. Backend - Firebase
+1. Styling - CSS
 

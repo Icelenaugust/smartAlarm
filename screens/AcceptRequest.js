@@ -96,11 +96,6 @@ export default class AcceptRequest extends Component {
       });
     }
         
-
-        
-    
-    
-
     render() {
         var user = firebase.auth().currentUser;
         if (!this.state.isLoaded) {
@@ -122,7 +117,6 @@ export default class AcceptRequest extends Component {
 
         }
 
-       
         return(
             <View style={styles.container}>
                 <ScrollView>
@@ -139,11 +133,13 @@ export default class AcceptRequest extends Component {
                                 </TouchableOpacity> */}
                                 <View style={styles.iconbox}>
                                     <TouchableOpacity value={item} style={styles.icon}
-                                    onPress={()=> this.acceptFriend(item, user)}>
+                                    onPress={()=> {this.acceptFriend(item, user)
+                                    && this.props.navigation.navigate("Profile")}}>
                                         {tick}
                                     </TouchableOpacity>
                                     <TouchableOpacity value={item} style={styles.icon}
-                                    onPress={()=>this.rejectFriend(item, user)}>
+                                    onPress={()=> {this.rejectFriend(item, user)
+                                        && this.props.navigation.navigate("Profile")}}>
                                         {cross}
                                     </TouchableOpacity>
                                 </View>

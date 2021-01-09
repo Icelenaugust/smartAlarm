@@ -6,9 +6,6 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
-  Image,
-  ImageBackground,
-  Dimensions,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from "firebase";
@@ -25,7 +22,7 @@ export default class FriendRequest extends Component {
       nameList: [],
       hashID: [],
       friendID: "",
-      findFriend: false,
+      findFriend: true,
       isLoaded: false,
       foundFriend: false,
       emailArray: [],
@@ -51,16 +48,13 @@ export default class FriendRequest extends Component {
           hash.push(pair);
           this.setState({ nameList: curr, hashID: hash });
         });
-        //console.log(this.state.hashID);
       });
       this.setState({ isLoaded: true });
-      //console.log(this.state.isLoaded);
     }
   }
 
   handleUsername = (value) => {
     this.setState({ friendMail: value });
-    //console.log(this.state.friendMail)
   };
 
   handleSearch = () => {
@@ -70,26 +64,24 @@ export default class FriendRequest extends Component {
     if (temp.length == 1) {
       this.setState({ foundFriend: true });
     }
-    this.setState({ findFriend: true });
+    this.setState({ findFriend: false });
   };
 
   sendRequest = () => {
-    this.setState({ foundFriend: false });
+    this.setState({findFriend: true})
+    this.setState({foundFriend: false})
     var friendId;
     for (var i = 0; i < this.state.hashID.length; i++) {
       const check = this.state.hashID[i];
       if (this.state.friendMail === check[0]) {
         this.setState({ friendID: check[1] });
         friendId = check[1];
-        //console.log("hi", check[1])
       }
     }
+    this.setState({friendMail: ""})
 
     // var gmailKey = firebase.database().ref().child('users')
-    //                 .child('user.uid').child('gmail').push().key;
-
-    console.log("yo");
-    console.log("hihi", this.state.friendID);
+    //                 .child('user.uid').child('gmail').push().key
 
     var requestRef = firebase
       .database()
@@ -101,7 +93,6 @@ export default class FriendRequest extends Component {
           "/request"
       );
     // var data = [];
-    // console.log("uuuuuuu", requestRef);
     requestRef.once("value").then((snapshot) => {
       console.log("snap1", snapshot.val());
       var data = snapshot.val() === null ? [] : snapshot.val();
@@ -109,14 +100,10 @@ export default class FriendRequest extends Component {
       console.log("snap2", data);
 
       this.updateRequest(friendId, data);
-      //   this.setState({ emailArray: data });
-      // console.log("helloooo", data)
     });
-    // this.updateRequest(friendId);
   };
 
   updateRequest = (friendId, data) => {
-    // console.log(this.state.emailArray);
     firebase
       .database()
       .ref("/requests" + "/friendRequest" + "/requestUsers/" + friendId)
@@ -124,14 +111,14 @@ export default class FriendRequest extends Component {
         request: data,
       })
       .then((snapshot) => {
-        // console.log("Snapshot", snapshot);
       });
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.rowContainer}>
+        <Text style={styles.lable}>Enter email address</Text>
+        <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
             autoCapitalize="none"
@@ -149,14 +136,17 @@ export default class FriendRequest extends Component {
             <Text style={styles.name}>{this.state.friendMail}</Text>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => this.sendRequest()}
+            onPress={() => {this.sendRequest()}}
             >
-              <Text style={styles.text}>+ Add friend</Text>
+              <Text style={styles.add}>+ Add friend</Text>
             </TouchableOpacity>
           </View>
         )}
-        {this.state.findFriend && !this.state.foundFriend && (
-          <Text>Username not found</Text>
+        {this.state.requestSent && (
+          <Text style={styles.text}>Friend request sent!</Text>
+        )}
+        {!this.state.findFriend  && !this.state.foundFriend  && (
+          <Text style={styles.text}>Username not found</Text>
         )}
       </View>
     );
@@ -170,14 +160,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
   },
+  inputContainer: {
+    flexDirection: "row",
+  },
   rowContainer: {
     flexDirection: "row",
+    backgroundColor: '#e5e2f6',
+    margin: 10,
+    height: 45,
+    width:'90%',
+    padding: 8,
+    borderRadius: 3
+
   },
   icon: {
     marginTop: 18,
   },
   name: {
-    fontSize: 22,
+    fontSize: 18,
     color: "#201b40",
   },
   button: {
@@ -185,7 +185,18 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   text: {
-    fontSize: 16,
+    fontSize: 18,
+    color: 'red',
+    marginTop: 10,
+  },
+  add: {
+    fontSize: 18,
+    marginLeft: 15
+  },
+  lable: {
+    fontSize: 18,
+    marginRight: '48%',
+    marginTop: 10,
   },
   input: {
     margin: 15,
@@ -193,6 +204,7 @@ const styles = StyleSheet.create({
     borderColor: "#7a42f4",
     borderWidth: 1,
     borderRadius: 3,
-    width: 250,
+    width: '80%',
+    fontSize: 18,
   },
 });

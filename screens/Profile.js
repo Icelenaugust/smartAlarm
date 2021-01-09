@@ -179,7 +179,6 @@ export default class Login extends Component {
     var user = this.state.user;
 
 
-
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.icon}>
@@ -187,7 +186,7 @@ export default class Login extends Component {
           {myIcon}
           </TouchableOpacity>
         </View>
-        <View style={{ alignSelf: "center", marginTop: "20%" }}>
+        <View style={{ alignSelf: "center", marginTop: "6%" }}>
           <View style={styles.profileImage}>
             <Image
               source={
@@ -214,13 +213,13 @@ export default class Login extends Component {
               style={styles.button}
               onPress={() => this.props.navigation.navigate("QuestionForm")}
             >
-              <Text style={styles.text}>Question Form</Text>
+              <Text style={[styles.text, { fontSize: 24 }]}>Question Form</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.props.navigation.navigate("QuestionBank")}
             >
-              <Text style={styles.text}>Question Bank</Text>
+              <Text style={[styles.text, { fontSize: 24 }]}>Question Bank</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
@@ -235,14 +234,15 @@ export default class Login extends Component {
             >
               <Text style={[styles.text, { fontSize: 24 }]}>Add Friends</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.updateProfilePic(user)}
+            >
+              <Text style={[styles.text, { fontSize: 17 }]}>Change Profile Picture</Text>
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={{ alignSelf: "center", margin: 10 }}>
-          <Button
-            title="Change Profile Picture"
-            onPress={() => this.updateProfilePic(user)}
-          />
-        </View>
+        
 
       </SafeAreaView>
     );
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 10,
   },
   subText: {
     fontSize: 16,
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
   statsContainer: {
     flexDirection: "row",
     alignSelf: "center",
-    marginTop: 32,
+    marginTop: 20,
   },
   statsBox: {
     alignItems: "center",

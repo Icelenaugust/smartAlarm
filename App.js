@@ -16,6 +16,7 @@ import FriendRequest from "./screens/FriendRequest";
 import AcceptRequest from "./screens/AcceptRequest";
 import QuestionForm from "./screens/QuestionForm";
 import QuestionBank from "./screens/QuestionBank";
+import SolveQuestion from "./screens/SolveQuestion";
 
 const Stack = createStackNavigator();
 
@@ -31,6 +32,9 @@ export default function App() {
         <Stack.Screen name="QuestionForm" component={QuestionForm} />
         <Stack.Screen name="QuestionBank" component={QuestionBank} />
         <Stack.Screen name="Alarm" component={Alarm} />
+
+        <Stack.Screen name="SolveQuestion" component={SolveQuestion} />
+
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Friends" component={Friends} />

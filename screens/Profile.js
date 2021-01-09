@@ -21,7 +21,6 @@ var updatedURI;
 var hasUpdated = false;
 const myIcon = <Icon name="users" size={30} color="gray" />;
 
-
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -46,7 +45,7 @@ export default class Login extends Component {
       }
       // Get the token that uniquely identifies this device
       let token = await Notifications.getExpoPushTokenAsync();
-      console.log(token.data);
+      // console.log(token.data);
       // POST the token to your backend server from where you can retrieve it to send push notifications.
       firebase
         .database()
@@ -78,22 +77,18 @@ export default class Login extends Component {
   // }
 
   countFriends(user) {
-    var someRef = (firebase
-      .database()
-      .ref("/users/" + user.uid + '/friends/'));
+    var someRef = firebase.database().ref("/users/" + user.uid + "/friends/");
 
-      someRef.once("value").then((snapshot) => {
-          var data = snapshot.val();
+    someRef.once("value").then((snapshot) => {
+      var data = snapshot.val();
 
-          if (data == null) {
-              return 0;
-          } else {
-              return data.length;
-          }
-  });
-}
-
-
+      if (data == null) {
+        return 0;
+      } else {
+        return data.length;
+      }
+    });
+  }
 
   writeUserData(userId, imageUrl) {
     firebase
@@ -165,7 +160,7 @@ export default class Login extends Component {
   };
 
   retrieveName = (user) => {
-    console.log(user);
+    // console.log(user);
     firebase
       .database()
       .ref("users/" + user.uid + "/first_name")
@@ -178,14 +173,13 @@ export default class Login extends Component {
   render() {
     var user = this.state.user;
 
-
-    
-
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.icon}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("AcceptRequest")}>
-          {myIcon}
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("AcceptRequest")}
+          >
+            {myIcon}
           </TouchableOpacity>
         </View>
         <View style={{ alignSelf: "center", marginTop: "20%" }}>
@@ -249,7 +243,6 @@ export default class Login extends Component {
             onPress={() => this.updateProfilePic()}
           /> */}
         </View>
-        
       </SafeAreaView>
     );
   }
@@ -261,9 +254,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
   },
   icon: {
-    justifyContent: 'flex-end',
-    marginLeft: '85%',
-    marginTop: '3%',
+    justifyContent: "flex-end",
+    marginLeft: "85%",
+    marginTop: "3%",
   },
   text: {
     fontFamily: "HelveticaNeue",
@@ -277,10 +270,10 @@ const styles = StyleSheet.create({
   button: {
     width: 250,
     height: 50,
-    backgroundColor: '#e5e2f6',
+    backgroundColor: "#e5e2f6",
     borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 20,
   },
   subText: {

@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-// import t from 'tcomb-form-native';
+import React, { Component } from "react";
 import {
   View,
   Text,
@@ -11,50 +10,6 @@ import {
 import { TouchableWithoutFeedback, Keyboard } from "react-native";
 import firebase from "firebase";
 import { v4 as uuidv4 } from "uuid";
-
-// const Form = t.form.Form;
-
-// const Quiz = t.struct({
-//   question: t.String,
-//   option_1: t.String,
-//   option_2: t.String,
-//   option_3: t.String,
-//   correct_answer: t.String,
-// });
-
-// const formStyles = {
-//     ...Form.stylesheet,
-//     textbox: {
-//         normal: {
-//           width: 350,
-//           color: 'black',
-//           fontSize: 18,
-//           height: 38,
-//           paddingVertical: Platform.OS === "ios" ? 7 : 0,
-//           paddingHorizontal: 7,
-//           borderRadius: 4,
-//           borderColor: 'gray',
-//           borderWidth: 1,
-//           marginBottom: 5
-//         }
-//     }
-// }
-
-// handleSubmit = () => {
-//     //const myQuiz = this._form.getValue();
-//     var value = this.refs.form.getValue();
-//     console.log('hello')
-//     console.log('quiz: ', myQuiz);
-//   }
-
-//   const options = {
-//     stylesheet: formStyles,
-//     fields: {
-//         correct_answer: {
-//           help: 'Correct answer must match with an option!'
-//         }
-//       }
-//   }
 
 const DismissKeyboardHOC = (Comp) => {
   return ({ children, ...props }) => (
@@ -120,7 +75,7 @@ export default class QuestionForm extends Component {
         .database()
         .ref(`/questions/${this.state.user.uid}/${id}`)
         .set(item);
-      console.log(this.state.question);
+      this.props.navigation.navigate("Profile");
     }
   };
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, Dimensions, ImageBackground, TouchableOpacity } from "react-native";
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 
@@ -115,20 +115,33 @@ export default class Login extends Component {
   };
   render() {
     return (
+
       <View style={styles.container}>
-        <Button
-          title="Sign In With Google"
+      <ImageBackground
+        style={styles.backgrd}
+        source={require("../images/loginBoy.png")}
+      >
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => {
             this.signInWithGoogleAsync().then(() =>
               this.props.navigation.navigate("Profile")
             );
           }}
-        />
+        >
 
-        <Button
-          title="Goto Profile Page"
+          <Text style={styles.text}>Sign In With Google</Text>
+
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => this.props.navigation.navigate("Profile")}
-        />
+        >
+          <Text style={styles.text}>Goto Profile Page</Text>
+
+        </TouchableOpacity>
+      </ImageBackground>
       </View>
     );
   }
@@ -136,8 +149,34 @@ export default class Login extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: "column",
+    backgroundColor: "#afa9cf",
     flex: 1,
+  },
+
+  backgrd: {
+    width: Dimensions.get("window").width,
+    height: "100%",
     alignItems: "center",
+    //justifyContent: "center",
+  },
+
+  button: {
+    width: 330,
+    height: 50,
+    backgroundColor: "#e5e2f6",
+    borderRadius: 30,
     justifyContent: "center",
+    alignItems: "center",
+    marginTop: 30,
+    top: 100
+
+  },
+
+  text: {
+    fontSize: 22,
+    color: "#201b40",
+    textAlign: "center",
+    fontFamily: "Chalkduster",
   },
 });

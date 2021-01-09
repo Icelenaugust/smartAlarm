@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, Image, Dimensions } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import * as Notifications from 'expo-notifications';
@@ -85,7 +85,11 @@ export default class Alarm extends Component {
         } else {
             return(
                 <View style={styles.container}>
-                    <Text style={{color: 'red', fontSize: 20}}>
+                    
+                    <Image
+                    style={styles.image}
+                    source={require("../images/alarmpic.png")}/>
+                    <Text style={{color: "#201b40", fontSize: 20}}>
                         {this.state.chosenTime}
                     </Text>
                     <TouchableOpacity style = {styles.button} onPress={this.showPicker}>
@@ -109,23 +113,35 @@ export default class Alarm extends Component {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: "#afa9cf",
       alignItems: 'center',
-      justifyContent: 'center',
+      //justifyContent: 'center',
     },
 
     button: {
-      width: 250,
-      height: 50,
-      backgroundColor: 'rgb(0, 0, 0)',
-      borderRadius: 30,
-      justifyContent: 'center',
-      marginTop: 15
-    },
+        width: 250,
+        height: 50,
+        backgroundColor: "#e5e2f6",
+        borderRadius: 30,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 30,
+        top: 10,
+      },
 
-    text: {
-      fontSize: 18,
-      color: 'white',
-      textAlign: 'center'
-    }
+      text: {
+        fontSize: 22,
+        color: "#201b40",
+        textAlign: "center",
+        fontFamily: "Chalkduster",
+      },
+
+      image: {
+        width: Dimensions.get("window").width,
+        height: "50%",
+        alignItems: "center",
+        marginTop: 30
+
+       }
+
 });

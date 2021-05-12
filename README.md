@@ -1,4 +1,5 @@
 # Smart Alarm
+![SmartAlarm](https://user-images.githubusercontent.com/66818697/117926168-e82a0b80-b32a-11eb-81fb-fb7a84bcd626.png)
 
 ## Aim
 To create a fun and interactive way for users to get notified at a specific time.
